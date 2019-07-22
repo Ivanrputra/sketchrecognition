@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jQuery Simple Draw App Demo</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'canvas/css/canvas_style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'canvas/css/custom.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'canvas/css/skeleton.css' %}">
+	<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+	<script>
+	function putImage(){
+		{% comment %} var c=document.getElementById("canvasSignature"); {% endcomment %}
+		var c=document.getElementById("canvas2");
+		var d=c.toDataURL("image/png");
+        var resizedCanvas = document.createElement("canvas");
+        var resizedContext = resizedCanvas.getContext("2d");
+
+        resizedCanvas.height    = "32";
+        resizedCanvas.width     = "32";
+
+        var canvas = document.getElementById("canvas2");
+        var context = canvas.getContext("2d");
+
+		context.save();
+		context.globalCompositeOperation = 'destination-over';
+		context.fillStyle = 'white';
+		context.fillRect(0, 0,canvas.width, canvas.height);
+		context.restore();
+
+        resizedContext.drawImage(canvas, 0, 0, 32, 32);
+        var myResizedData = resizedCanvas.toDataURL();
+		$.ajax({
+			type: "POST",
+			url: "/sketch/recognition/",
+			data:{
+				'image': myResizedData,
+			},
+				success: function (msg) {
+				console.log(msg);
+			}
+		});
+	}  
+	</script>
+</head>
+<body>
+	<div id="sketchpad"></div>
+	<h1 style="margin-top:0px" align="center">jQuery Simple Draw App Demo</h1>
+	{% comment %} <div style='width:100%;height:100%; background-color: red;position: relative;'> {% endcomment %}
+	{% comment %} <canvas	id="canvasSignature" style="width:300px;height:300px;"></canvas> {% endcomment %}
+	{% comment %} </div> {% endcomment %}
+	<div class="controls">
+		<ul>
+			<li class="red selected"></li>
+			<li class="blue"></li>
+			<li class="yellow"></li>
+		</ul>
+		<button id="revealColorSelect">New Color</button>
+		{% comment %} <button type='submit' id="revealColorSelect" onclick="putImage()">Save as Image</button> {% endcomment %}
+		<button id="revealColorSelect"  onclick="erase()" >Reset</button>
+		<div id="colorSelect"> <span id="newColor"></span>
+			<div class="sliders">
+				<p>
+					<label for="red">Red</label>
+					<input id="red" name="red" type="range" min=0 max=255 value=0>
+				</p>
+				<p>
+					<label for="green">Green</label>
+					<input id="green" name="green" type="range" min=0 max=255 value=0>
+				</p>
+				<p>
+					<label for="blue">Blue</label>
+					<input id="blue" name="blue" type="range" min=0 max=255 value=0>
+				</p>
+			</div>
+			<div>
+				<button id="addNewColor">Add Color</button>
+			</div>
+		</div>
+	</div>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="{% static 'canvas/js/canvas_app.js' %}" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
+  <script src="{% static 'canvas/js/responsive-sketchpad.js' %}" type="text/javascript" charset="utf-8"></script>
+  <script>
+    var el = document.getElementById('sketchpad');
+    var pad = new Sketchpad(el);
+
+    // setLineColor
+    function setLineColor(e) {
+        var color = e.target.value;
+        if (!color.startsWith('#')) {
+            color = '#' + color;
+        }
+        pad.setLineColor(color);
+    }
+    document.getElementById('line-color-input').oninput = setLineColor;
+
+    // setLineSize
+    function setLineSize(e) {
+        var size = e.target.value;
+        pad.setLineSize(size);
+    }
+    document.getElementById('line-size-input').oninput = setLineSize;
+
+    // undo
+    function undo() {
+        pad.undo();
+    }
+    document.getElementById('undo').onclick = undo;
+
+    // redo
+    function redo() {
+        pad.redo();
+    }
+    document.getElementById('redo').onclick = redo;
+
+    // clear
+    function clear() {
+        pad.clear();
+    }
+    document.getElementById('clear').onclick = clear;
+
+    // resize
+    window.onresize = function (e) {
+      pad.resize(el.offsetWidth);
+    }
+  </script>

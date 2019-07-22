@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simple Sketch Recognition</title>
+    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'canvas/css/canvas_style.css' %}"> {% endcomment %}
+	<link rel="stylesheet" type="text/css" href="{% static 'canvas/css/custom.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'canvas/css/skeleton.css' %}">
+	<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+	<script>
+	function putImage(){
+		{% comment %} var c=document.getElementById("canvasSignature"); {% endcomment %}
+		var c=document.getElementById("canvas2");
+		var d=c.toDataURL("image/png");
+        var resizedCanvas = document.createElement("canvas");
+        var resizedContext = resizedCanvas.getContext("2d");
+
+        resizedCanvas.height    = "32";
+        resizedCanvas.width     = "32";
+
+        var canvas = document.getElementById("canvas2");
+        var context = canvas.getContext("2d");
+
+		context.save();
+		context.globalCompositeOperation = 'destination-over';
+		context.fillStyle = 'white';
+		context.fillRect(0, 0,canvas.width, canvas.height);
+		context.restore();
+
+        resizedContext.drawImage(canvas, 0, 0, 32, 32);
+        var myResizedData = resizedCanvas.toDataURL();
+		document.getElementById('result').innerHTML = "Processing";
+		$.ajax({
+			type: "POST",
+			url: "/sketch/recognition/",
+			data:{
+				'image': myResizedData,
+			},
+				success: function (msg) {
+				console.log(msg);
+				document.getElementById('result').innerHTML = msg;
+			}
+		});
+	}  
+	</script>
+</head>
+<body style= "background:#4da1f0;">
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <section class="text-center">
+      <h2>Simple Sketch Recognition</h2>
+    </section>
+
+    <section>
+      <div class="row">
+        <div class="two-thirds column">
+          <div id="sketchpad"></div>
+          <em>Try resizing the window!</em>
+        </div>
+        <div class="one-third column">
+		<label >Reconinized as : </label><p id="result"></p>
+          <label for="line-color-input">Set Line Color</label>
+          {% comment %} <input class="u-full-width" type="text" value="#000000"> {% endcomment %}
+		  	Color: <input class="jscolor" value="000000"  id="line-color-input">
+          {% comment %} <label for="line-size-input">Set Line Size</label> {% endcomment %}
+          {% comment %} <input class="u-full-width" type="number" value="5" id="line-size-input"> {% endcomment %}
+          <div class="row">
+            <div class="one-half column">
+              <button class="u-full-width" id="undo">Undo</button>
+            </div>
+            <div class="one-half column">
+              <button class="u-full-width" id="redo">Redo</button>
+            </div>
+            <button class="u-full-width" id="clear">Clear</button>
+          </div>
+        </div>
+      </div>
+    </section>
+	</div>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="{% static 'canvas/js/jscolor.js' %}" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
+  <script src="{% static 'canvas/js/responsive-sketchpad.js' %}" type="text/javascript" charset="utf-8"></script>
+  <script>
+    var el = document.getElementById('sketchpad');
+    var pad = new Sketchpad(el);
+
+    // setLineColor
+    function setLineColor(e) {
+        var color = e.target.value;
+        if (!color.startsWith('#')) {
+            color = '#' + color;
+        }
+        pad.setLineColor(color);
+    }
+    document.getElementById('line-color-input').onchange = setLineColor;
+
+    // setLineSize
+    function setLineSize(e) {
+        var size = e.target.value;
+        pad.setLineSize(size);
+    }
+
+
+    // undo
+    function undo() {
+        pad.undo();
+		
+    }
+    document.getElementById('undo').onclick = undo;
+
+    // redo
+    function redo() {
+        pad.redo();
+    }
+    document.getElementById('redo').onclick = redo;
+
+    // clear
+    function clear() {
+        pad.clear();
+		document.getElementById('result').innerHTML = '';
+    }
+    document.getElementById('clear').onclick = clear;
+
+    // resize
+    window.onresize = function (e) {
+      pad.resize(el.offsetWidth);
+    }
+  </script>
