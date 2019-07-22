@@ -12,14 +12,15 @@
 		{% comment %} var c=document.getElementById("canvasSignature"); {% endcomment %}
 		var c=document.getElementById("canvas2");
 		var d=c.toDataURL("image/png");
-        var resizedCanvas = document.createElement("canvas");
-        var resizedContext = resizedCanvas.getContext("2d");
 
-        resizedCanvas.height    = "32";
-        resizedCanvas.width     = "32";
+    var resizedCanvas = document.createElement("canvas");
+    var resizedContext = resizedCanvas.getContext("2d");
 
-        var canvas = document.getElementById("canvas2");
-        var context = canvas.getContext("2d");
+    resizedCanvas.height    = "32";
+    resizedCanvas.width     = "32";
+
+    var canvas = document.getElementById("canvas2");
+    var context = canvas.getContext("2d");
 
 		context.save();
 		context.globalCompositeOperation = 'destination-over';
@@ -27,8 +28,8 @@
 		context.fillRect(0, 0,canvas.width, canvas.height);
 		context.restore();
 
-        resizedContext.drawImage(canvas, 0, 0, 32, 32);
-        var myResizedData = resizedCanvas.toDataURL();
+    resizedContext.drawImage(canvas, 0, 0, 32, 32);
+    var myResizedData = resizedCanvas.toDataURL();
 		document.getElementById('result').innerHTML = "Processing";
 		$.ajax({
 			type: "POST",
@@ -79,7 +80,7 @@
       </div>
     </section>
 	</div>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="{% static 'canvas/js/jquery.min.js' %}" type="text/javascript" charset="utf-8"></script>
 	<script src="{% static 'canvas/js/jscolor.js' %}" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>
