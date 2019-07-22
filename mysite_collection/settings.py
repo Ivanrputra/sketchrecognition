@@ -26,7 +26,7 @@ SECRET_KEY = '&wd2t%brqppd6e&cvp@6a4i0d#94sgy8^a549l1ttvivve2@21'
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['pandaiman.herokuapp.com']
 
 
 # Application definition
