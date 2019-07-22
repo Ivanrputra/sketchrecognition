@@ -16,7 +16,7 @@ import numpy as np
 import math
 import tensorflow as tf
 from PIL import Image
-# import urllib
+import urllib
 import io 
 import cv2
 from io import StringIO,BytesIO
