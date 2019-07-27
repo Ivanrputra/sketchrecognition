@@ -82,11 +82,11 @@ def recognition(request):
         
         
         a = ""
-        if Y[0] == 0: a = "bundar"
-        if Y[0] == 1: a = "gelas"
-        if Y[0] == 2: a = "kacamata"
-        if Y[0] == 3: a = "orang"
-        if Y[0] == 4: a = "bintang"
+        if Y[0] == 0: a = "CIRCLE"
+        if Y[0] == 1: a = "MUG"
+        if Y[0] == 2: a = "EYEGLASSES"
+        if Y[0] == 3: a = "HUMAN"
+        if Y[0] == 4: a = "STAR"
         message = a
     else:
         message = "Not Ajax"

@@ -33,7 +33,7 @@
 		document.getElementById('result').innerHTML = "Processing";
 		$.ajax({
 			type: "POST",
-			url: "/sketch/recognition/",
+			url: "/recognition/",
 			data:{
 				'image': myResizedData,
 			},
@@ -50,21 +50,22 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
-    <section class="text-center">
+    <!-- <section class="text-center">
       <h2>Simple Sketch Recognition</h2>
-    </section>
+    </section> -->
 
     <section>
       <div class="row">
         <div class="two-thirds column">
           <div id="sketchpad"></div>
-          <em>Try resizing the window!</em>
+          
         </div>
         <div class="one-third column">
-		<label >Reconinized as : </label><p id="result"></p>
+          <label >Reconinized as : </label>
+          <b><p id="result"></p></b>
           <label for="line-color-input">Set Line Color</label>
           {% comment %} <input class="u-full-width" type="text" value="#000000"> {% endcomment %}
-		  	Color: <input class="jscolor" value="000000"  id="line-color-input">
+		  	  Color: <input class="jscolor" value="000000"  id="line-color-input">
           {% comment %} <label for="line-size-input">Set Line Size</label> {% endcomment %}
           {% comment %} <input class="u-full-width" type="number" value="5" id="line-size-input"> {% endcomment %}
           <div class="row">
@@ -76,9 +77,15 @@
             </div>
             <button class="u-full-width" id="clear">Clear</button>
           </div>
+          <div style="display: inline-block">
+          <h6 style="text-align: center">Created By Ivan R Putra
+              ivanrputra@gmail.com
+          </h6>
+          </div>
         </div>
       </div>
     </section>
+    
 	</div>
   <script src="{% static 'canvas/js/jquery.min.js' %}" type="text/javascript" charset="utf-8"></script>
 	<script src="{% static 'canvas/js/jscolor.js' %}" type="text/javascript" charset="utf-8"></script>
