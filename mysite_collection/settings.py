@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sketch_recognition',
-    "django_cron",
+    # "django_cron",
 ]
 
 MIDDLEWARE = [
