@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sketch_recognition'
+    'sketch_recognition',
+    "django_cron",
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+]
+
+CRON_CLASSES = [
+    "sketch_recognition.cron.MyCronJob",
 ]
 
 ROOT_URLCONF = 'mysite_collection.urls'

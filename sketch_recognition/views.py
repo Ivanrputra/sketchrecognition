@@ -29,6 +29,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.conf import settings
 # from django.conf.urls.static import static
 
+
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
@@ -91,3 +92,4 @@ def recognition(request):
     else:
         message = "Not Ajax"
     return HttpResponse(message)
+
