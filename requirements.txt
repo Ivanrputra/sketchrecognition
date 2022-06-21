@@ -16,7 +16,7 @@ lock==2018.3.25.2110
 Markdown==3.1.1
 matplotlib==3.1.1
 mysqlclient==1.4.2.post1
-numpy==1.16.4
+numpy==1.22.0
 opencv-python==4.1.0.25
 Pillow==6.1.0
 protobuf==3.9.0
